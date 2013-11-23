@@ -24,6 +24,14 @@ def party_color(party):
   elif party == 'SD':
     return '#704805'
 
+file = sys.argv[1]
+try:
+  if sys.argv[2] == "true":
+    plot_names = True
+except IndexError:
+  plot_names = False
+
+
 
 df = pd.read_csv(sys.argv[1])
 vote_columns = [c for c in df.columns if c != 'voter' and c != 'party' and c != 'name']
@@ -34,10 +42,10 @@ mds = MDS(dissimilarity="precomputed").fit_transform(distances)
 plt.figure(figsize = (8, 5))
 plt.plot(mds[:, 0], mds[:, 1], '.', alpha = 0)
 
-for voter in enumerate(df['party']):
-  plt.annotate(voter[1], 
+for voter in df.iterrows():
+  plt.annotate((voter[1]['party'], voter[1]['name'].decode('utf-8'))[plot_names], 
       (mds[voter[0], 0], mds[voter[0],1]), 
-      color = party_color(voter[1]),
+      color = party_color(voter[1]['party']),
       horizontalalignment = 'center', 
       verticalalignment = 'center')
 
