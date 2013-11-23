@@ -32,8 +32,7 @@ except IndexError:
   plot_names = False
 
 
-
-df = pd.read_csv(sys.argv[1])
+df = pd.read_csv(file)
 vote_columns = [c for c in df.columns if c != 'voter' and c != 'party' and c != 'name']
 
 distances = euclidean_distances(df[vote_columns].values)
@@ -51,5 +50,5 @@ for voter in df.iterrows():
 
 plt.setp(plt.gca().get_yaxis(), visible = False)
 plt.setp(plt.gca().get_xaxis(), visible = False)
-plt.savefig(sys.argv[1] + ".png") 
+plt.savefig(file + ".png") 
 
